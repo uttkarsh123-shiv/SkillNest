@@ -1,14 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
-
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange }) {
   const getPageNumbers = () => {
-    const pages: (number | string)[] = [];
+    const pages = [];
     const showEllipsis = totalPages > 7;
 
     if (!showEllipsis) {
