@@ -2,14 +2,68 @@ import { useState } from "react";
 import { GraduationCap } from "lucide-react";
 import { Button } from "../components/Button";
 import { useNavigate } from "react-router";
+import { authAPI } from "../../utils/api";
+import { useAuth } from "../../context/AuthContext";
 
 export function AuthPage() {
   const [activeTab, setActiveTab] = useState("login");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/courses");
+    setError("");
+    setLoading(true);
+
+    try {
+      if (activeTab === "register") {
+        if (formData.password !== formData.confirmPassword) {
+          setError("Passwords do not match");
+          setLoading(false);
+          return;
+        }
+
+        const data = await authAPI.register({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        });
+
+        login(data, data.token);
+        navigate("/courses");
+      } else {
+        const data = await authAPI.login({
+          email: formData.email,
+          password: formData.password
+        });
+
+        login(data, data.token);
+        
+        // Redirect based on role
+        if (data.role === 'admin') {
+          navigate("/admin");
+        } else {
+          navigate("/courses");
+        }
+      }
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -95,11 +149,26 @@ export function AuthPage() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-4 rounded-xl text-sm">
+                  <div className="font-semibold mb-1">⚠️ {activeTab === 'login' ? 'Login Failed' : 'Registration Failed'}</div>
+                  <div>{error}</div>
+                  {error.includes('Cannot connect') && (
+                    <div className="mt-2 text-xs bg-red-100 p-2 rounded">
+                      Make sure backend is running: <code className="bg-red-200 px-1">cd backend && npm run dev</code>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {activeTab === "register" && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="Enter your name"
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] transition-all"
                     required
@@ -111,6 +180,9 @@ export function AuthPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="Enter your email"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] transition-all"
                   required
@@ -121,6 +193,9 @@ export function AuthPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   placeholder="Enter your password"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] transition-all"
                   required
@@ -132,6 +207,9 @@ export function AuthPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
                   <input
                     type="password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
                     placeholder="Confirm your password"
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] transition-all"
                     required
@@ -151,8 +229,8 @@ export function AuthPage() {
                 </div>
               )}
 
-              <Button variant="primary" size="lg" type="submit" className="w-full mt-2">
-                {activeTab === "login" ? "Sign In" : "Create Account"}
+              <Button variant="primary" size="lg" type="submit" className="w-full mt-2" disabled={loading}>
+                {loading ? 'Please wait...' : (activeTab === "login" ? "Sign In" : "Create Account")}
               </Button>
             </form>
 
