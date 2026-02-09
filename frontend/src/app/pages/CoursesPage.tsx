@@ -3,11 +3,14 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { CourseCard } from "../components/CourseCard";
+import { Pagination } from "../components/Pagination";
 
 export function CoursesPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const coursesPerPage = 8;
 
   const allCourses = [
     {
@@ -97,6 +100,94 @@ export function CoursesPage() {
       rating: 4.5,
       category: "Marketing",
       image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1hcmtldGluZyUyMGxhcHRvcHxlbnwxfHx8fDE3NzA2MTU2MTB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 9,
+      title: "Full Stack JavaScript Development",
+      description: "Build complete web applications with MERN stack",
+      instructor: "Robert Martinez",
+      duration: "10 weeks",
+      price: "$65",
+      rating: 4.9,
+      category: "Web Dev",
+      image: "https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXZlbG9wbWVudCUyMGNvZGluZyUyMGNvbXB1dGVyfGVufDF8fHx8MTc3MDUwMjkyNHww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 10,
+      title: "Deep Learning with TensorFlow",
+      description: "Build neural networks and deep learning models from scratch",
+      instructor: "Dr. Priya Sharma",
+      duration: "7 weeks",
+      price: "$69",
+      rating: 4.8,
+      category: "AI",
+      image: "https://images.unsplash.com/photo-1756967385885-0f20d517f72f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnRpZmljaWFsJTIwaW50ZWxsaWdlbmNlJTIwcm9ib3QlMjB0ZWNobm9sb2d5fGVufDF8fHx8MTc3MDYxNTYwOXww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 11,
+      title: "Motion Graphics & Animation",
+      description: "Create engaging animations with After Effects and Cinema 4D",
+      instructor: "Carlos Mendez",
+      duration: "6 weeks",
+      price: "$52",
+      rating: 4.6,
+      category: "Design",
+      image: "https://images.unsplash.com/photo-1512645592367-97ba8a9d4035?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmFwaGljJTIwZGVzaWduJTIwY3JlYXRpdmUlMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzcwNTA1NDg2fDA&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 12,
+      title: "Email Marketing & Automation",
+      description: "Master email campaigns, automation, and conversion optimization",
+      instructor: "Jennifer Lee",
+      duration: "4 weeks",
+      price: "$38",
+      rating: 4.5,
+      category: "Marketing",
+      image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1hcmtldGluZyUyMGxhcHRvcHxlbnwxfHx8fDE3NzA2MTU2MTB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 13,
+      title: "TypeScript for Modern Development",
+      description: "Write type-safe JavaScript applications with TypeScript",
+      instructor: "Thomas Anderson",
+      duration: "5 weeks",
+      price: "$48",
+      rating: 4.7,
+      category: "Web Dev",
+      image: "https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXZlbG9wbWVudCUyMGNvZGluZyUyMGNvbXB1dGVyfGVufDF8fHx8MTc3MDUwMjkyNHww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 14,
+      title: "Natural Language Processing",
+      description: "Build chatbots and text analysis systems with NLP",
+      instructor: "Dr. Aisha Patel",
+      duration: "8 weeks",
+      price: "$72",
+      rating: 4.9,
+      category: "AI",
+      image: "https://images.unsplash.com/photo-1756967385885-0f20d517f72f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnRpZmljaWFsJTIwaW50ZWxsaWdlbmNlJTIwcm9ib3QlMjB0ZWNobm9sb2d5fGVufDF8fHx8MTc3MDYxNTYwOXww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 15,
+      title: "Brand Identity Design",
+      description: "Create memorable brand identities and visual systems",
+      instructor: "Sophie Chen",
+      duration: "5 weeks",
+      price: "$46",
+      rating: 4.8,
+      category: "Design",
+      image: "https://images.unsplash.com/photo-1512645592367-97ba8a9d4035?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmFwaGljJTIwZGVzaWduJTIwY3JlYXRpdmUlMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzcwNTA1NDg2fDA&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+      id: 16,
+      title: "Growth Hacking Strategies",
+      description: "Scale your startup with proven growth hacking techniques",
+      instructor: "Mark Stevens",
+      duration: "4 weeks",
+      price: "$44",
+      rating: 4.6,
+      category: "Marketing",
+      image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1hcmtldGluZyUyMGxhcHRvcHxlbnwxfHx8fDE3NzA2MTU2MTB8MA&ixlib=rb-4.1.0&q=80&w=1080"
     }
   ];
 
@@ -108,6 +199,7 @@ export function CoursesPage() {
     } else {
       setSelectedCategories([...selectedCategories, category]);
     }
+    setCurrentPage(1); // Reset to first page when filter changes
   };
 
   const filteredCourses = allCourses.filter(course => {
@@ -118,44 +210,58 @@ export function CoursesPage() {
     return matchesSearch && matchesCategory;
   });
 
+  // // Pagination logic
+  // const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
+  // const indexOfLastCourse = currentPage * coursesPerPage;
+  // const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  // const currentCourses = filteredCourses.slice(indexOfFirstCourse, indexOfLastCourse);
+
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  //   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#F8F9FF] to-white border-b border-gray-100 py-16">
+      <div className="bg-white border-b border-[#e3e3e3] py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Explore Courses</h1>
-          <p className="text-gray-600 text-xl">Find the perfect course to boost your skills</p>
+          <h1 className="text-5xl font-normal text-[#202124] mb-3">Explore Courses</h1>
+          <p className="text-[#5f6368] text-lg">Find the perfect course to boost your skills</p>
         </div>
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="bg-white sticky top-16 z-40 border-b border-gray-100 py-6">
+      <div className="bg-white sticky top-[57px] z-40 border-b border-[#e3e3e3] py-5">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-3 items-center">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5f6368]" />
               <input
                 type="text"
                 placeholder="Search for courses..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] transition-all"
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full pl-12 pr-4 py-3 rounded-full border border-[#dadce0] hover:border-[#c4c7c5] focus:outline-none focus:border-[#1a73e8] focus:shadow-sm transition-all text-sm bg-[#f8f9fa]"
               />
             </div>
             
             {/* Category Pills */}
             <div className="hidden lg:flex items-center gap-2">
-              <SlidersHorizontal className="w-5 h-5 text-gray-400" />
+              <SlidersHorizontal className="w-5 h-5 text-[#5f6368]" />
               {categories.map(category => (
                 <button
                   key={category}
                   onClick={() => toggleCategory(category)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategories.includes(category)
-                      ? "bg-[#4F46E5] text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-[#e8f0fe] text-[#1a73e8] border border-[#1a73e8]"
+                      : "bg-white text-[#5f6368] border border-[#dadce0] hover:bg-[#f8f9fa]"
                   }`}
                 >
                   {category}
@@ -170,10 +276,10 @@ export function CoursesPage() {
               <button
                 key={category}
                 onClick={() => toggleCategory(category)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedCategories.includes(category)
-                    ? "bg-[#4F46E5] text-white"
-                    : "bg-gray-100 text-gray-700"
+                    ? "bg-[#e8f0fe] text-[#1a73e8] border border-[#1a73e8]"
+                    : "bg-white text-[#5f6368] border border-[#dadce0]"
                 }`}
               >
                 {category}
@@ -184,10 +290,10 @@ export function CoursesPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="mb-8">
-          <p className="text-gray-600">
-            Showing <span className="font-semibold text-gray-900">{filteredCourses.length}</span> courses
+          <p className="text-[#5f6368] text-sm">
+            Showing <span className="font-semibold text-[#202124]">{filteredCourses.length}</span> courses
           </p>
         </div>
 
@@ -198,11 +304,19 @@ export function CoursesPage() {
         </div>
 
         {filteredCourses.length === 0 && (
-          <div className="text-center py-20">
+          <div className="text-center py-20 bg-[#f8f9fa] rounded-3xl">
             <div className="text-6xl mb-4">🔍</div>
-            <p className="text-gray-500 text-lg">No courses found. Try adjusting your search.</p>
+            <p className="text-[#5f6368] text-base">No courses found. Try adjusting your search.</p>
           </div>
         )}
+
+        {/* {filteredCourses.length > 0 && totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )} */}
       </div>
 
       <Footer />

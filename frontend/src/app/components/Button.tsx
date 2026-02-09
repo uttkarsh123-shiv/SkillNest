@@ -16,15 +16,15 @@ export function Button({
   const baseStyles = "rounded-full font-medium transition-all duration-200 inline-flex items-center justify-center whitespace-nowrap";
   
   const variantStyles = {
-    primary: "bg-[#4F46E5] text-white hover:bg-[#4338ca] shadow-sm hover:shadow-md",
-    outline: "border border-gray-300 text-gray-700 hover:bg-gray-50 bg-white",
-    success: "bg-[#4F46E5] text-white hover:bg-[#4338ca] shadow-sm hover:shadow-md"
+    primary: "bg-[#1a73e8] text-white hover:shadow-lg hover:bg-[#1557b0] active:scale-95",
+    outline: "border border-[#c4c7c5] text-[#1a73e8] hover:bg-[#f0f4f9] bg-white",
+    success: "bg-[#1e8e3e] text-white hover:shadow-lg hover:bg-[#137333] active:scale-95"
   };
 
   const sizeStyles = {
-    sm: "px-5 py-2.5 text-sm",
-    md: "px-6 py-3 text-sm",
-    lg: "px-8 py-3.5 text-base"
+    sm: "px-6 py-2 text-sm",
+    md: "px-6 py-2.5 text-sm",
+    lg: "px-8 py-3 text-base"
   };
 
   return (
