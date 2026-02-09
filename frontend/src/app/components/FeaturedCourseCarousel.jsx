@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Star, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Clock, Users } from "lucide-react";
 import { Button } from "./Button";
 import { useNavigate } from "react-router";
 
@@ -68,102 +68,104 @@ export function FeaturedCourseCarousel() {
   const currentCourse = featuredCourses[currentIndex];
 
   return (
-    <div className="relative bg-gradient-to-br from-[#f0f4f9] to-white py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-normal text-[#202124] mb-3">Featured Course</h2>
-          <p className="text-[#5f6368] text-lg">Start learning with our most popular course</p>
-        </div>
+    <div className="relative h-[600px] overflow-hidden">
+      {/* Background Image with Dark Overlay */}
+      <div className="absolute inset-0">
+        <img 
+          src={currentCourse.image}
+          alt={currentCourse.title}
+          className="w-full h-full object-cover transition-opacity duration-1000"
+        />
+        <div className="absolute inset-0 bg-black/70"></div>
+      </div>
 
-        <div className="relative">
-          {/* Main Course Card */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-[#e3e3e3]">
-            <div className="grid grid-cols-1 lg:grid-cols-2">
-              {/* Image Section */}
-              <div className="relative h-96 lg:h-auto overflow-hidden">
-                <img 
-                  src={currentCourse.image}
-                  alt={currentCourse.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className="absolute top-6 left-6 bg-[#1a73e8] text-white px-4 py-2 rounded-full text-sm font-medium">
-                  {currentCourse.category}
-                </div>
-              </div>
+      {/* Content Overlay */}
+      <div className="relative h-full max-w-7xl mx-auto px-6 flex items-center">
+        <div className="max-w-3xl">
+          {/* Badge */}
+          <div className="inline-block mb-6">
+            <span className="bg-[#1a73e8] text-white px-4 py-2 rounded-full text-sm font-medium">
+              ⭐ Start learning today
+            </span>
+          </div>
 
-              {/* Content Section */}
-              <div className="p-10 flex flex-col justify-center">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex items-center gap-1.5 bg-[#fef7e0] px-3 py-1.5 rounded-lg">
-                    <Star className="w-5 h-5 fill-[#fbbc04] text-[#fbbc04]" />
-                    <span className="text-base font-semibold text-[#202124]">{currentCourse.rating}</span>
-                  </div>
-                  <span className="text-[#5f6368]">•</span>
-                  <span className="text-[#5f6368]">{currentCourse.students} students</span>
-                </div>
+          {/* Title */}
+          <h1 className="text-6xl font-bold text-white mb-6 leading-tight">
+            Learn Skills That <span className="text-[#4a9eff]">Actually Matter</span>
+          </h1>
 
-                <h3 className="text-3xl font-semibold text-[#202124] mb-4 leading-tight">
-                  {currentCourse.title}
-                </h3>
+          {/* Description */}
+          <p className="text-xl text-gray-200 mb-8 leading-relaxed">
+            Discover short courses & workshops curated for students who want to stay ahead
+          </p>
 
-                <p className="text-[#5f6368] text-lg mb-6 leading-relaxed">
-                  {currentCourse.description}
-                </p>
+          {/* Buttons */}
+          <div className="flex gap-4 mb-12">
+            <Button 
+              variant="primary" 
+              size="lg"
+              onClick={() => navigate("/courses")}
+            >
+              Browse Courses
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => navigate("/auth")}
+              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+            >
+              Join Free
+            </Button>
+          </div>
 
-                <div className="flex items-center gap-6 mb-8">
-                  <div className="flex items-center gap-2 text-[#5f6368]">
-                    <Clock className="w-5 h-5" />
-                    <span className="font-medium">{currentCourse.duration}</span>
-                  </div>
-                  <span className="text-[#5f6368]">•</span>
-                  <span className="text-[#5f6368]">By {currentCourse.instructor}</span>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <span className="text-4xl font-bold text-[#1a73e8]">{currentCourse.price}</span>
-                  <Button 
-                    variant="primary" 
-                    size="lg"
-                    onClick={() => navigate(`/course/${currentCourse.id}`)}
-                  >
-                    View Details
-                  </Button>
-                </div>
-              </div>
+          {/* Stats */}
+          <div className="flex items-center gap-8">
+            <div>
+              <div className="text-4xl font-bold text-white">5K+</div>
+              <div className="text-sm text-gray-300">Active Students</div>
+            </div>
+            <div className="h-12 w-px bg-white/30"></div>
+            <div>
+              <div className="text-4xl font-bold text-white">50+</div>
+              <div className="text-sm text-gray-300">Courses</div>
+            </div>
+            <div className="h-12 w-px bg-white/30"></div>
+            <div>
+              <div className="text-4xl font-bold text-white">4.8★</div>
+              <div className="text-sm text-gray-300">Rating</div>
             </div>
           </div>
-
-          {/* Navigation Buttons */}
-          <button
-            onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10"
-          >
-            <ChevronLeft className="w-6 h-6 text-[#202124]" />
-          </button>
-
-          <button
-            onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10"
-          >
-            <ChevronRight className="w-6 h-6 text-[#202124]" />
-          </button>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center gap-2 mt-8">
-            {featuredCourses.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex 
-                    ? 'w-8 bg-[#1a73e8]' 
-                    : 'w-2 bg-[#dadce0] hover:bg-[#c4c7c5]'
-                }`}
-              />
-            ))}
-          </div>
         </div>
+      </div>
+
+      {/* Navigation Buttons */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 p-4 rounded-full transition-all z-10 border border-white/30"
+      >
+        <ChevronLeft className="w-6 h-6 text-white" />
+      </button>
+
+      <button
+        onClick={goToNext}
+        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 backdrop-blur-sm hover:bg-white/20 p-4 rounded-full transition-all z-10 border border-white/30"
+      >
+        <ChevronRight className="w-6 h-6 text-white" />
+      </button>
+
+      {/* Dots Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+        {featuredCourses.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`h-2 rounded-full transition-all ${
+              index === currentIndex 
+                ? 'w-12 bg-white' 
+                : 'w-2 bg-white/50 hover:bg-white/80'
+            }`}
+          />
+        ))}
       </div>
     </div>
   );

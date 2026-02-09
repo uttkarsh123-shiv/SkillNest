@@ -23,19 +23,19 @@ export function AuthPage() {
         </div>
         
         <div className="relative z-10 text-center max-w-md">
-          <div className="mb-8 flex justify-center">
+          {/* <div className="mb-8 flex justify-center">
             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-white/20">
               <Sparkles className="w-16 h-16 text-white" />
             </div>
-          </div>
+          </div> */}
           <h2 className="text-4xl font-bold text-white mb-4">
-            Upgrade Your Skills Today 🚀
+            Upgrade Your Skills Today
           </h2>
           <p className="text-white/90 text-lg leading-relaxed">
             Join thousands of students mastering the skills that matter
           </p>
           
-          <div className="mt-16 grid grid-cols-3 gap-8">
+          <div className="mt-16 grid grid-cols-3 gap-0">
             <div className="text-center">
               <div className="text-4xl font-bold text-white mb-2">5K+</div>
               <div className="text-white/80 text-sm">Students</div>

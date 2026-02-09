@@ -31,13 +31,13 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
   };
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-12">
+    <div className="flex items-center justify-center gap-3 mt-16">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="flex items-center justify-center w-10 h-10 rounded-full text-[#5f6368] hover:bg-[#f1f3f4] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="flex items-center justify-center w-11 h-11 rounded-full text-[#5f6368] hover:bg-[#e8f0fe] hover:text-[#1a73e8] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-all"
       >
-        <ChevronLeft className="w-5 h-5" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
 
       {getPageNumbers().map((page, index) => (
@@ -45,12 +45,12 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
           key={index}
           onClick={() => typeof page === 'number' && onPageChange(page)}
           disabled={page === '...'}
-          className={`flex items-center justify-center min-w-10 h-10 px-3 rounded-full text-sm font-medium transition-all ${
+          className={`flex items-center justify-center min-w-11 h-11 px-4 rounded-full text-sm font-semibold transition-all ${
             page === currentPage
-              ? 'bg-[#e8f0fe] text-[#1a73e8]'
+              ? 'bg-[#1a73e8] text-white shadow-lg scale-110'
               : page === '...'
               ? 'cursor-default text-[#5f6368]'
-              : 'text-[#5f6368] hover:bg-[#f1f3f4]'
+              : 'text-[#5f6368] hover:bg-[#e8f0fe] hover:text-[#1a73e8]'
           }`}
         >
           {page}
@@ -60,9 +60,9 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="flex items-center justify-center w-10 h-10 rounded-full text-[#5f6368] hover:bg-[#f1f3f4] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="flex items-center justify-center w-11 h-11 rounded-full text-[#5f6368] hover:bg-[#e8f0fe] hover:text-[#1a73e8] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-all"
       >
-        <ChevronRight className="w-5 h-5" />
+        <ChevronRight className="w-6 h-6" />
       </button>
     </div>
   );
