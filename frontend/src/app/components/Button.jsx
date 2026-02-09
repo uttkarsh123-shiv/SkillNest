@@ -2,7 +2,8 @@ export function Button({
   children, 
   variant = "primary", 
   size = "md",
-  onClick,
+  onClick = undefined,
+  type = "button",
   className = ""
 }) {
   const baseStyles = "rounded-full font-medium transition-all duration-200 inline-flex items-center justify-center whitespace-nowrap";
@@ -21,6 +22,7 @@ export function Button({
 
   return (
     <button 
+      type={type}
       onClick={onClick}
       className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
     >
